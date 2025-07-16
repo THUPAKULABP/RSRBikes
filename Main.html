@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="RSR Bikes - India's premier marketplace for used bikes with immersive 3D views and unbeatable prices.">
+  <meta name="keywords" content="used bikes, RSR Bikes, India, motorcycle marketplace, 3D bike views">
+  <title>RSR Bikes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+    html{font-size:62.5%}
+    body{font-family:'Inter',sans-serif;background:#0f172a;color:#fff}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block;cursor:pointer}
+    .container{max-width:1200px;margin:auto;padding:0 1rem}
+    header{position:fixed;width:100%;top:0;z-index:1000;backdrop-filter:blur(10px);background:rgba(0,0,0,.9);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .logo{font-size:2.4rem;font-weight:700;font-family:'Poppins',sans-serif;background:linear-gradient(to right,#3b82f6,#a855f7,#f43f5e);background-clip:text;-webkit-background-clip:text;color:transparent}
+    nav{display:none}
+    nav.active{display:block;background:rgba(0,0,0,.95);padding:1rem;border-radius:10px;margin-top:1rem}
+    nav a{display:block;margin:.5rem 0;color:#fff;font-weight:500;transition:color .3s}
+    nav a:hover{color:#94a3b8}
+    .menu-toggle{cursor:pointer;display:block;font-size:1.8rem}
+    @media (min-width:768px){nav{display:flex;gap:2rem;font-size:1.4rem}.menu-toggle{display:none}}
+    .hero{min-height:100vh;padding:120px 2rem 80px;text-align:center;background:#0f172a;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:fadeIn 1s ease}
+    .hero h1{font-size:4rem;font-family:'Poppins',sans-serif;color:#f8fafc;margin-bottom:1rem}
+    .hero p{max-width:800px;margin:auto;font-size:1.6rem;color:#cbd5e1;margin-bottom:2rem}
+    .btn-primary{display:inline-block;margin-top:1rem;padding:1.2rem 2.5rem;background:linear-gradient(to right,#3b82f6,#a855f7);color:#fff;border:none;border-radius:999px;font-weight:600;font-size:1.4rem;cursor:pointer;transition:transform .3s}
+    .btn-primary:hover{transform:scale(1.05)}
+    .filters{display:flex;justify-content:center;gap:1rem;padding:2rem;flex-wrap:wrap;animation:fadeIn 1s ease}
+    .filter-btn{padding:.8rem 1.6rem;border-radius:999px;background:#1e293b;cursor:pointer;transition:background .3s;font-weight:500}
+    .filter-btn.active{background:#334155;font-weight:600}
+    .bike-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;padding:2rem;animation:fadeIn 1s ease}
+    .bike-card{background:#1e293b;border-radius:1rem;overflow:hidden;transition:transform .3s;border:1px solid #334155;position:relative}
+    .bike-card:hover{transform:translateY(-5px)}
+    .bike-card .image-container{display:flex;overflow-x:auto;gap:1rem;padding:1rem;scroll-snap-type:x mandatory}
+    .bike-card .image-container img{width:150px;height:100px;object-fit:cover;border-radius:10px;scroll-snap-align:start;loading:lazy}
+    .bike-card .info{padding:1.5rem}
+    .bike-card h3{font-size:1.6rem;margin-bottom:.5rem;font-family:'Poppins',sans-serif}
+    .bike-card .price{color:#3b82f6;font-weight:600;margin-bottom:1rem}
+    .bike-card .details{font-size:1.2rem;color:#94a3b8;margin-bottom:1rem}
+    .Buyer-name{font-size:1.4rem;font-weight:700;background:linear-gradient(270deg,#ff4ecd,#6c4de9,#2ce8f5,#ff4ecd);background-size:600% 600%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbowGlow 5s ease infinite}
+    @keyframes rainbowGlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .contact-buttons{display:flex;gap:1rem;padding:1rem}
+    .contact-button{flex:1;padding:.6rem;background:#1e293b;border-radius:8px;text-align:center;cursor:pointer;transition:background .3s,transform .3s}
+    .contact-button:hover{background:#334155;transform:scale(1.05)}
+    .about,.achievements,.testimonials{padding:6rem 2rem;background:#0f172a;text-align:center;animation:fadeIn 1s ease}
+    .about h2,.achievements h2,.testimonials h2{font-size:3rem;font-family:'Poppins',sans-serif;margin-bottom:2rem}
+    .about p,.achievements p,.testimonials p{max-width:800px;margin:auto;font-size:1.4rem;color:#94a3b8}
+    footer{background:#0f172a;padding:2rem;text-align:center;font-size:1rem;color:#64748b}
+    @media (max-width:600px){.hero h1,.about h2,.achievements h2,.testimonials h2{font-size:2.5rem}.hero p,.about p,.achievements p,.testimonials p{font-size:1.2rem}}
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center}
+    .modal-content{max-width:90%;max-height:90%;overflow:auto}
+    .modal-image{width:100%;max-width:600px;margin-bottom:1rem;scroll-snap-align:start}
+    .close-modal{position:absolute;top:20px;right:20px;font-size:2rem;color:#fff;cursor:pointer}
+    .badge{position:absolute;top:1rem;left:1rem;padding:.5rem 1rem;border-radius:999px;font-size:1.2rem;font-weight:600;color:#fff;animation:pulse 2s infinite}
+    .badge-sold{background:#ef4444}
+    .badge-new{background:#10b981}
+    .badge-price-down{background:#f59e0b}
+    .badge-value{background:#3b82f6}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+    .achievements-grid,.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;max-width:1000px;margin:2rem auto}
+    .achievement-card,.testimonial-card{background:#1e293b;border-radius:1rem;padding:2rem;text-align:center;border:1px solid #334155;transition:transform .3s}
+    .achievement-card:hover,.testimonial-card:hover{transform:translateY(-5px)}
+    .achievement-card h3,.testimonial-card h3{font-size:1.6rem;font-family:'Poppins',sans-serif;margin-bottom:1rem}
+    .achievement-card p,.testimonial-card p{font-size:1.2rem;color:#94a3b8}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@1.7.0/dist/lottie-player.js"></script>
+  <script src="https://unpkg.com/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <div style="position:fixed;top:0;left:0;z-index:-1;width:100%;height:100%">
+    <svg viewBox="0 0 1200 800" style="height:100%;width:100%">
+      <defs>
+        <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#3b82f6"/>
+          <stop offset="100%" stop-color="#a855f7"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#grad)" opacity=".3">
+        <animate attributeName="d" dur="10s" repeatCount="indefinite" values="M0,200 C300,400 900,0 1200,200 L1200,800 L0,800 Z;M0,300 C400,100 800,500 1200,300 L1200,800 L0,800 Z;M0,200 C300,400 900,0 1200,200 L1200,800 L0,800 Z"/>
+      </path>
+    </svg>
+  </div>
+  <header>
+    <div class="logo">RSR Bikes</div>
+    <nav id="mobile-nav">
+      <a href="#home">Home</a>
+      <a href="#bikes">Bikes</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
+  <section class="hero" id="home">
+    <div class="container">
+      <h1>Used Bikes in India</h1>
+      <p>Explore India's premier marketplace for used bikes with immersive 3D views and unbeatable prices.</p>
+      <lottie-player 
+        src="https://lottie.host/4b5f1f24-3c3e-4b7a-b5d6-6f2487a6e5f2/5aE7kZ6L8f.json"  
+        background="transparent"  
+        speed="1"  
+        style="width:300px;height:300px;margin:2rem auto"  
+        loop  
+        autoplay
+        on-error="handleLottieError(this,'lottie-fallback-hero')">
+      </lottie-player>
+      <div id="lottie-fallback-hero" style="display:none">
+        <img src="https://ik.imagekit.io/e3tzugl7c/images%20(2).jpeg?updatedAt=1752646004255" alt="Fallback Bike Image" style="width:300px;height:200px;margin:2rem auto;border-radius:10px" loading="lazy">
+      </div>
+      <button class="btn-primary" onclick="document.getElementById('bikes').scrollIntoView({behavior:'smooth'})" aria-label="View available bikes">View Bikes</button>
+    </div>
+  </section>
+  <div class="filters">
+    <div class="filter-btn active" data-filter="all" aria-label="Show all bikes">All</div>
+    <div class="filter-btn" data-filter="unsold" aria-label="Show unsold bikes">Unsold</div>
+    <div class="filter-btn" data-filter="sold" aria-label="Show sold bikes">Sold</div>
+    <div class="filter-btn" data-filter="new" aria-label="Show newly arrived bikes">Newly Arrived</div>
+    <div class="filter-btn" data-filter="price-down" aria-label="Show bikes with price decreased">Price Decreased</div>
+    <div class="filter-btn" data-filter="value" aria-label="Show value for money bikes">Value for Money</div>
+    <div class="filter-btn" data-filter="featured" aria-label="Show featured bikes">Featured</div>
+  </div>
+  <section id="bikes">
+    <div class="container">
+      <div class="bike-gallery" id="bikeGallery"></div>
+    </div>
+  </section>
+  <section class="achievements" id="achievements">
+    <div class="container">
+      <h2>Our Achievements</h2>
+      <p>We’re proud to deliver exceptional value with low commissions and a seamless experience.</p>
+      <div class="achievements-grid">
+        <div class="achievement-card">
+          <lottie-player 
+            src="https://lottie.host/0e7e3597-b7b7-4b97-b9c8-14e5e9f57d39/wdJ5D0KCBX.json"  
+            background="transparent"  
+            speed="1"  
+            style="width:150px;height:150px;margin:1rem auto"  
+            loop  
+            autoplay
+            on-error="handleLottieError(this,'lottie-fallback-achieve1')">
+          </lottie-player>
+          <div id="lottie-fallback-achieve1" style="display:none">
+            <img src="https://ik.imagekit.io/e3tzugl7c/images%20(8).jpeg?updatedAt=1752646805173" alt="Trophy Icon" style="width:100px;height:100px;margin:1rem auto" loading="lazy">
+          </div>
+          <h3>100+ Bikes Sold</h3>
+          <p>Successfully facilitated the sale of over 100 bikes across India.</p>
+        </div>
+        <div class="achievement-card">
+          <lottie-player 
+            src="https://lottie.host/6a3f3e30-8d7a-4f29-a6f4-2a9e6e642c9b/c4JPi5Q8y7.json"  
+            background="transparent"  
+            speed="1"  
+            style="width:150px;height:150px;margin:1rem auto"  
+            loop  
+            autoplay
+            on-error="handleLottieError(this,'lottie-fallback-achieve2')">
+          </lottie-player>
+          <div id="lottie-fallback-achieve2" style="display:none">
+            <img src="https://ik.imagekit.io/e3tzugl7c/images%20(10).jpeg?updatedAt=1752646956795" alt="Coin Icon" style="width:100px;height:100px;margin:1rem auto" loading="lazy">
+          </div>
+          <h3>Low Commission</h3>
+          <p>Our commission is only ₹500–₹1,000, making it affordable for all.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <h2>What Our Customers Say</h2>
+      <p>Hear from riders who found their dream bikes with RSR Bikes.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <lottie-player 
+            src="https://lottie.host/9b0c8f0e-1b5e-4b0e-9f0d-6e2b1f0a2c8d/3f4g5h6j7k.json"  
+            background="transparent"  
+            speed="1"  
+            style="width:100px;height:100px;margin:1rem auto"  
+            loop  
+            autoplay
+            on-error="handleLottieError(this,'lottie-fallback-testimonial1')">
+          </lottie-player>
+          <div id="lottie-fallback-testimonial1" style="display:none">
+            <img src="https://ik.imagekit.io/e3tzugl7c/images%20(6).jpeg?updatedAt=1752646524186" alt="Customer Icon" style="width:80px;height:80px;margin:1rem auto;border-radius:50%" loading="lazy">
+          </div>
+          <h3>Rahul V.</h3>
+          <p>"RSR Bikes made buying my Honda CB Shine so easy! The 3D view was a game-changer."</p>
+        </div>
+        <div class="testimonial-card">
+          <lottie-player 
+            src="https://lottie.host/9b0c8f0e-1b5e-4b0e-9f0d-6e2b1f0a2c8d/3f4g5h6j7k.json"  
+            background="transparent"  
+            speed="1"  
+            style="width:100px;height:100px;margin:1rem auto"  
+            loop  
+            autoplay
+            on-error="handleLottieError(this,'lottie-fallback-testimonial2')">
+          </lottie-player>
+          <div id="lottie-fallback-testimonial2" style="display:none">
+            <img src="https://ik.imagekit.io/e3tzugl7c/images%20(12).jpeg?updatedAt=1752646956585" alt="Customer Icon" style="width:80px;height:80px;margin:1rem auto;border-radius:50%" loading="lazy">
+          </div>
+          <h3>Anita S.</h3>
+          <p>"Great prices and low commission. I sold my bike in just a week!"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="about" id="about">
+    <div class="container">
+      <h2>About RSR Bikes</h2>
+      <p>RSR Bikes is India's most advanced marketplace for used bikes, offering immersive 3D experiences, verified listings, and unbeatable prices to help you find or sell your dream bike online. We believe in transparency, quality, and speed.</p>
+      <lottie-player 
+        src="https://lottie.host/4b5f1f24-3c3e-4b7a-b5d6-6f2487a6e5f2/5aE7kZ6L8f.json"  
+        background="transparent"  
+        speed="1"  
+        style="width:300px;height:300px;margin:2rem auto"  
+        loop  
+        autoplay
+        on-error="handleLottieError(this,'lottie-fallback-about')">
+      </lottie-player>
+      <div id="lottie-fallback-about" style="display:none">
+        <img src="https://ik.imagekit.io/e3tzugl7c/images%20(10).jpeg?updatedAt=1752646956795" alt="Fallback Bike Image" style="width:300px;height:200px;margin:2rem auto;border-radius:10px" loading="lazy">
+      </div>
+    </div>
+  </section>
+  <section class="contact" id="contact">
+    <div class="container" style="max-width:600px">
+      <h2 style="font-family:'Poppins';margin-bottom:2rem">📞 Get In Touch</h2>
+      <div style="backdrop-filter:blur(12px);background:rgba(255,255,255,.05);border-radius:16px;padding:2rem">
+        <form class="contact-form" onsubmit="submitForm(event)">
+          <input type="text" placeholder="👤 Your Name" required style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:10px;border:none" aria-label="Your Name"/>
+          <input type="email" placeholder="📧 Your Email" required style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:10px;border:none" aria-label="Your Email"/>
+          <textarea rows="5" placeholder="💬 Your Message" required style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:10px;border:none" aria-label="Your Message"></textarea>
+          <button type="submit" style="width:100%;padding:1rem;border-radius:10px;background:linear-gradient(to right,#3b82f6,#a855f7);color:#fff;font-weight:700;font-size:1.2rem" aria-label="Send Message">🚀 Send</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <div id="imageModal" class="modal">
+    <span class="close-modal" onclick="closeModal()" aria-label="Close image modal">×</span>
+    <div class="modal-content" id="modalImages" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory"></div>
+  </div>
+  <footer>
+    © 2025 RSR Bikes. All rights reserved.
+  </footer>
+  <script>
+    const bikes=[
+      {
+        category:"unsold",
+        badge:"value",
+        images:[
+          "https://ik.imagekit.io/e3tzugl7c/images%20(2).jpeg?updatedAt=1752646004255",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(4).jpeg?updatedAt=1752646293760",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(2).jpeg?updatedAt=1752646004255"
+        ],
+        name:"Hero Splendor Plus",
+        price:"₹18,500",
+        details:{model:"2021",kilometers:"12,000 km",rcTransfer:"Yes",condition:"Good"}
+      },
+      {
+        category:"featured",
+        badge:"new",
+        images:[
+          "https://ik.imagekit.io/e3tzugl7c/m_shine-sp_11539695747.jpg?updatedAt=1752646524578",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(6).jpeg?updatedAt=1752646524186",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(5).jpeg?updatedAt=1752646523853"
+        ],
+        name:"Honda CB Shine",
+        price:"₹23,000",
+        details:{model:"2022",kilometers:"8,000 km",rcTransfer:"Yes",condition:"Excellent"}
+      },
+      {
+        category:"sold",
+        badge:"sold",
+        images:[
+          "https://ik.imagekit.io/e3tzugl7c/images%20(8).jpeg?updatedAt=1752646805173",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(9).jpeg?updatedAt=1752646805016",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(7).jpeg?updatedAt=1752646804792"
+        ],
+        name:"Bajaj Pulsar 150",
+        price:"₹28,000",
+        details:{model:"2020",kilometers:"20,000 km",rcTransfer:"No",condition:"Fair"},
+        Buyer:"Amit Patel"
+      },
+      {
+        category:"featured",
+        badge:"price-down",
+        images:[
+          "https://ik.imagekit.io/e3tzugl7c/images%20(10).jpeg?updatedAt=1752646956795",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(12).jpeg?updatedAt=1752646956585",
+          "https://ik.imagekit.io/e3tzugl7c/images%20(11).jpeg?updatedAt=1752646956590"
+        ],
+        name:"Suzuki Access 125",
+        price:"₹32,000",
+        details:{model:"2023",kilometers:"5,000 km",rcTransfer:"Yes",condition:"Like New"}
+      }
+    ];
+    function toggleMenu(){
+      document.getElementById("mobile-nav").classList.toggle("active");
+    }
+    function showModal(images){
+      const modal=document.getElementById("imageModal");
+      const container=document.getElementById("modalImages");
+      container.innerHTML="";
+      images.forEach(src=>{
+        const img=document.createElement("img");
+        img.src=src;
+        img.className="modal-image";
+        img.setAttribute("loading","lazy");
+        container.appendChild(img);
+      });
+      modal.style.display="flex";
+    }
+    function closeModal(){
+      document.getElementById("imageModal").style.display="none";
+    }
+    function messageUser(){
+      const name=prompt("Enter your name:");
+      const message=prompt("Type your message:");
+      if(name&&message)alert("Your message has been sent!");
+    }
+    function submitForm(e){
+      e.preventDefault();
+      alert("Thank you! Your message has been received.");
+    }
+    function handleLottieError(element,fallbackId){
+      element.style.display="none";
+      const fallback=document.getElementById(fallbackId);
+      if(fallback)fallback.style.display="block";
+      // Retry loading Lottie after 2 seconds
+      setTimeout(()=>{
+        element.src=element.src;
+        element.style.display="block";
+        fallback.style.display="none";
+      },2000);
+    }
+    function renderBikes(filter="all"){
+      const container=document.getElementById("bikeGallery");
+      container.innerHTML="";
+      bikes.filter(b=>filter==="all"||b.category===filter).forEach(bike=>{
+        const card=document.createElement("div");
+        card.className="bike-card";
+        const buyerInfo=bike.category==="sold"&&bike.Buyer?`<div class="details"><strong>Buyer:</strong><br/><span class="Buyer-name">${bike.Buyer}</span></div>`:"";
+        card.innerHTML=`
+          <div class="badge badge-${bike.badge}" aria-label="${bike.badge.replace('-',' ')}">${bike.badge.replace('-',' ')}</div>
+          <div class="image-container">
+            ${bike.images.map(img=>`<img src="${img}" alt="${bike.name}" onclick="showModal(['${bike.images.join("','")}'])" loading="lazy">`).join('')}
+          </div>
+          <div class="info">
+            <h3>${bike.name}</h3>
+            <div class="price">${bike.price}</div>
+            <div class="details">
+              Model: ${bike.details.model}<br/>
+              KM: ${bike.details.kilometers}<br/>
+              RC Transfer: ${bike.details.rcTransfer}<br/>
+              Condition: ${bike.details.condition}
+            </div>
+            ${buyerInfo}
+            <div class="contact-buttons">
+              <div class="contact-button" onclick="window.open('https://wa.me/919876543210')" aria-label="Contact via WhatsApp">WhatsApp</div>
+              <div class="contact-button" onclick="window.location.href='tel:+919876543210'" aria-label="Call seller">Call</div>
+              <div class="contact-button" onclick="messageUser()" aria-label="Send a message">Message</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      setTimeout(()=>{
+        VanillaTilt.init(document.querySelectorAll(".bike-card"),{
+          max:15,
+          speed:400,
+          glare:true,
+          "max-glare":0.2
+        });
+      },300);
+    }
+    document.querySelectorAll(".filter-btn").forEach(btn=>{
+      btn.addEventListener("click",e=>{
+        document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        renderBikes(btn.getAttribute("data-filter"));
+      });
+    });
+    renderBikes();
+    window.addEventListener('error',e=>{
+      if(e.target.tagName==='LOTTIE-PLAYER'){
+        handleLottieError(e.target,e.target.nextElementSibling.id);
+      }
+    },true);
+  </script>
+</body>
+</html>
